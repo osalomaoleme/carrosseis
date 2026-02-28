@@ -851,9 +851,12 @@
                 const clone = cards[i].cloneNode(true);
                 clone.style.cssText = 'width:2007px; height:2509px; transform:none; position:relative; display:flex; align-items:center; justify-content:center; padding:100px 80px; background:' + cards[i].style.background + ';';
 
-                // Garante fundo branco sólido no tweet-card
+                // Garante fundo branco sólido e remove sombra (causa do cinza)
                 const tweetCard = clone.querySelector('.tweet-card');
-                if (tweetCard) tweetCard.style.background = '#ffffff';
+                if (tweetCard) {
+                    tweetCard.style.background = '#ffffff';
+                    tweetCard.style.boxShadow = 'none';
+                }
 
                 offscreen.innerHTML = '';
                 offscreen.appendChild(clone);
