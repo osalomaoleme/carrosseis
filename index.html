@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Carrossel — Salomão Leme</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --card-width: 2007px;
+            --card-height: 2509px;
+            --preview-scale: 0.20;
+            --preview-width: calc(var(--card-width) * var(--preview-scale));
+            --preview-height: calc(var(--card-height) * var(--preview-scale));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #111;
+            color: #eee;
+            min-height: 100vh;
+            padding: 32px 20px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .subtitulo {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 28px;
+        }
+
+        .painel {
+            background: #1c1c1c;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            padding: 28px;
+            width: 100%;
+            max-width: 700px;
+            margin-bottom: 16px;
+        }
+
+        .secao-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .campo-texto {
+            width: 100%;
+            background: #111;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            color: #eee;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            padding: 14px;
+            resize: vertical;
+            min-height: 180px;
+            line-height: 1.6;
+        }
+
+        .campo-texto:focus {
+            outline: none;
+            border-color: #444;
+        }
+
+        .separador {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 14px 0;
+            color: #444;
+            font-size: 12px;
+        }
+
+        .separador::before,
+        .separador::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #2a2a2a;
+        }
+
+        .btn-upload {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #1c1c1c;
+            border: 1px dashed #333;
+            border-radius: 10px;
+            color: #888;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            text-align: center;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .btn-upload:hover {
+            border-color: #555;
+            color: #ccc;
+        }
+
+        #arquivo-txt {
+            display: none;
+        }
+
+        .nome-arquivo {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+            padding-left: 4px;
+            display: none;
+        }
+
+        .foto-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 16px;
+            margin-bottom: 4px;
+        }
+
+        .foto-preview {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #2a2a2a;
+            border: 2px solid #333;
+            display: none;
+        }
+
+        .gradientes {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 0;
+        }
+
+        .grad-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: transform 0.15s, border-color 0.15s;
+        }
+
+        .grad-btn:hover {
+            transform: scale(1.12);
+        }
+
+        .grad-btn.selecionado {
+            border-color: #fff;
+        }
+
+        .secao {
+            margin-top: 22px;
+        }
+
+        .btn-gerar {
+            width: 100%;
+            margin-top: 28px;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            background: #ffffff10;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .btn-gerar:hover {
+            background: #ffffff18;
+            border-color: #555;
+        }
+
+        #secao-preview {
+            display: none;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        #secao-preview h2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #aaa;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #secao-preview h2 span {
+            font-size: 13px;
+            font-weight: 400;
+            background: #1c1c1c;
+            border: 1px solid #2a2a2a;
+            padding: 4px 12px;
+            border-radius: 20px;
+            color: #666;
+        }
+
+        .grid-preview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            width: 100%;
+        }
+
+        @media (max-width: 640px) {
+            .grid-preview {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .preview-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .preview-numero {
+            font-size: 11px;
+            color: #444;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            align-self: flex-start;
+        }
+
+        .card-wrapper {
+            width: var(--preview-width);
+            height: var(--preview-height);
+            overflow: hidden;
+            border-radius: 14px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .post-card {
+            width: var(--card-width);
+            height: var(--card-height);
+            transform-origin: top left;
+            transform: scale(var(--preview-scale));
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 60px;
+        }
+
+        .tweet-card {
+            background: #fff;
+            border-radius: 36px;
+            padding: 50px 60px;
+            width: 100%;
+            height: auto;
+            max-height: 960px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tweet-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-shrink: 0;
+        }
+
+        .perfil-foto {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 24px;
+            background: #ddd;
+            flex-shrink: 0;
+        }
+
+        .perfil-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .perfil-nome {
+            font-size: 32px;
+            font-weight: 700;
+            color: #0f1419;
+        }
+
+        .perfil-handle {
+            font-size: 26px;
+            color: #536471;
+            margin-top: 4px;
+        }
+
+        .tweet-dots {
+            color: #536471;
+            font-size: 36px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            align-self: flex-start;
+            margin-top: 8px;
+        }
+
+        .tweet-texto {
+            font-size: 38px;
+            color: #0f1419;
+            line-height: 1.5;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            margin-bottom: 30px;
+        }
+
+        .tweet-acoes {
+            display: flex;
+            justify-content: space-between;
+            color: #536471;
+            border-top: 1px solid #eff3f4;
+            padding-top: 24px;
+            flex-shrink: 0;
+        }
+
+        .acao {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .acao svg {
+            width: 32px;
+            height: 32px;
+            fill: currentColor;
+        }
+
+        .btns-download {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            max-width: 900px;
+            margin-top: 24px;
+        }
+
+        .btn-baixar {
+            flex: 1;
+            padding: 16px;
+            background: linear-gradient(135deg, #f09433, #bc1888);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-baixar:hover {
+            opacity: 0.88;
+        }
+
+        .btn-baixar:disabled {
+            background: #333;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .btn-salvar {
+            flex: 1;
+            padding: 16px;
+            background: #1c1c1c;
+            border: 1px solid #2a2a2a;
+            color: #aaa;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .btn-salvar:hover {
+            border-color: #555;
+            color: #fff;
+        }
+
+        .btn-salvar:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        #status-upload {
+            font-size: 13px;
+            color: #555;
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .link-galeria {
+            width: 100%;
+            max-width: 700px;
+            text-align: right;
+            margin-bottom: 8px;
+        }
+
+        .link-galeria a {
+            font-size: 13px;
+            color: #555;
+            text-decoration: none;
+        }
+
+        .link-galeria a:hover {
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>✦ Gerador de Carrossel</h1>
+    <p class="subtitulo">@osalomaoleme</p>
+
+    <div class="painel">
+        <!-- Foto de perfil -->
+        <div class="secao-label">Foto de Perfil</div>
+        <div class="foto-row">
+            <img id="foto-preview-img" class="foto-preview" src="" alt="preview">
+            <label class="btn-upload" for="arquivo-foto" style="flex:1; margin-top:0;">📷 Escolher foto de
+                perfil</label>
+            <input type="file" id="arquivo-foto" accept="image/*">
+        </div>
+
+        <!-- Texto -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin: 22px 0 10px;">
+            <div class="secao-label" style="margin-bottom:0;">Texto do Carrossel</div>
+            <button onclick="limparCampo()"
+                style="background:none; border:1px solid #2a2a2a; color:#444; font-size:12px; cursor:pointer; font-family:'Inter',sans-serif; padding:4px 8px; border-radius:6px;"
+                onmouseover="this.style.color='#aaa'" onmouseout="this.style.color='#444'">✕ Limpar</button>
+        </div>
+        <textarea class="campo-texto" id="input-texto"
+            placeholder="Cole aqui o texto no formato:&#10;&#10;Slide 1&#10;Texto do primeiro slide...&#10;&#10;Slide 2&#10;Texto do segundo slide..."></textarea>
+
+        <div class="separador">ou suba um arquivo .txt</div>
+        <label class="btn-upload" for="arquivo-txt">📂 Escolher arquivo .txt</label>
+        <input type="file" id="arquivo-txt" accept=".txt">
+        <div class="nome-arquivo" id="nome-arquivo-label"></div>
+
+        <!-- Gradientes -->
+        <div class="secao">
+            <div class="secao-label">Cor de Fundo</div>
+            <div class="gradientes" id="gradientes">
+                <button class="grad-btn selecionado" style="background:linear-gradient(45deg,#111,#444);"
+                    data-grad="linear-gradient(45deg,#111111,#444444)" title="Dark"></button>
+                <button class="grad-btn"
+                    style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);"
+                    data-grad="linear-gradient(45deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)"
+                    title="Instagram"></button>
+                <button class="grad-btn" style="background:linear-gradient(45deg,#833ab4,#fd1d1d,#fcb045);"
+                    data-grad="linear-gradient(45deg,#833ab4,#fd1d1d,#fcb045)" title="Vibrante"></button>
+                <button class="grad-btn" style="background:linear-gradient(135deg,#00d2ff,#3a7bd5);"
+                    data-grad="linear-gradient(135deg,#00d2ff,#3a7bd5)" title="Azul"></button>
+                <button class="grad-btn" style="background:linear-gradient(135deg,#FF6A88,#FF99AC);"
+                    data-grad="linear-gradient(135deg,#FF6A88,#FF99AC)" title="Rosa"></button>
+                <button class="grad-btn" style="background:linear-gradient(135deg,#1a1a2e,#16213e);"
+                    data-grad="linear-gradient(135deg,#1a1a2e,#16213e)" title="Noite"></button>
+            </div>
+        </div>
+
+        <button class="btn-gerar" onclick="gerarPreview()">⚡ Gerar Carrossel</button>
+    </div>
+
+    <div class="link-galeria">
+        <a href="galeria.html">🗂️ Ver histórico de carrosseis →</a>
+    </div>
+
+    <div id="secao-preview">
+        <h2>Preview <span id="label-total">0 slides</span></h2>
+        <div class="grid-preview" id="grid-preview"></div>
+        <div class="btns-download">
+            <button class="btn-baixar" id="btn-baixar" onclick="baixarZip()">📦 Baixar ZIP</button>
+            <button class="btn-salvar" id="btn-salvar" onclick="salvarSupabase()">☁️ Salvar no Supabase</button>
+        </div>
+        <div id="status-upload"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script>
+        // Inicializa cliente Supabase
+        const { createClient } = supabase;
+        const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let bgAtual = "linear-gradient(45deg,#111111,#444444)";
+        // Usa a foto do config.js como padrão — sobe a foto uma vez no Supabase e pronto
+        let fotoDataUrl = (typeof FOTO_PERFIL_URL !== 'undefined' && FOTO_PERFIL_URL.indexOf('SEU_PROJETO') === -1)
+            ? FOTO_PERFIL_URL
+            : null;
+        let imagensCapturadas = [];
+
+        // Interface da foto de perfil
+        document.getElementById('arquivo-foto').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+                fotoDataUrl = ev.target.result;
+                const preview = document.getElementById('foto-preview-img');
+                preview.src = fotoDataUrl;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Upload de .txt
+        document.getElementById('arquivo-txt').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            document.getElementById('nome-arquivo-label').style.display = 'block';
+            document.getElementById('nome-arquivo-label').textContent = '📄 ' + file.name;
+            const reader = new FileReader();
+            reader.onload = ev => { document.getElementById('input-texto').value = ev.target.result; };
+            reader.readAsText(file, 'UTF-8');
+        });
+
+        // Seletor de gradiente
+        document.querySelectorAll('.grad-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.grad-btn').forEach(b => b.classList.remove('selecionado'));
+                btn.classList.add('selecionado');
+                bgAtual = btn.dataset.grad;
+            });
+        });
+
+        function limparCampo() {
+            document.getElementById('input-texto').value = '';
+            document.getElementById('nome-arquivo-label').style.display = 'none';
+            document.getElementById('arquivo-txt').value = '';
+        }
+
+        function extrairSlides(texto) {
+            const partes = texto.split(/Slide\s+\d+/i);
+            return partes.map(p => p.trim()).filter(p => p.length > 0);
+        }
+
+        function criarPostCard(texto, bg) {
+            const txHTML = texto.replace(/\n/g, '<br>');
+            const card = document.createElement('div');
+            card.className = 'post-card';
+            card.style.background = bg;
+            const fotoSrc = fotoDataUrl || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+            card.innerHTML = `
+                <div class="tweet-card">
+                    <div class="tweet-header">
+                        <img class="perfil-foto" src="${fotoSrc}" alt="Perfil">
+                        <div class="perfil-info">
+                            <div class="perfil-nome">Salomão Leme</div>
+                            <div class="perfil-handle">@osalomaoleme</div>
+                        </div>
+                        <div class="tweet-dots">···</div>
+                    </div>
+                    <div class="tweet-texto">${txHTML}</div>
+                    <div class="tweet-acoes">
+                        <div class="acao"><svg viewBox="0 0 24 24"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.07 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"/></svg></div>
+                        <div class="acao"><svg viewBox="0 0 24 24"><path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z"/></svg></div>
+                        <div class="acao"><svg viewBox="0 0 24 24"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg></div>
+                        <div class="acao"><svg viewBox="0 0 24 24"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"/></svg></div>
+                        <div class="acao"><svg viewBox="0 0 24 24"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"/></svg></div>
+                    </div>
+                </div>`;
+            return card;
+        }
+
+        function gerarPreview() {
+            const texto = document.getElementById('input-texto').value.trim();
+            if (!texto) { alert('Cole algum texto ou suba um arquivo .txt primeiro!'); return; }
+            const slides = extrairSlides(texto);
+            if (slides.length === 0) { alert('Nenhum slide encontrado.'); return; }
+
+            imagensCapturadas = [];
+            const grid = document.getElementById('grid-preview');
+            grid.innerHTML = '';
+
+            slides.forEach((txSlide, i) => {
+                const item = document.createElement('div');
+                item.className = 'preview-item';
+                const num = document.createElement('div');
+                num.className = 'preview-numero';
+                num.textContent = `Slide ${i + 1}`;
+                const wrapper = document.createElement('div');
+                wrapper.className = 'card-wrapper';
+                const card = criarPostCard(txSlide, bgAtual);
+                wrapper.appendChild(card);
+                item.appendChild(num);
+                item.appendChild(wrapper);
+                grid.appendChild(item);
+            });
+
+            document.getElementById('label-total').textContent = `${slides.length} slide${slides.length > 1 ? 's' : ''}`;
+            document.getElementById('secao-preview').style.display = 'block';
+            document.getElementById('secao-preview').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        async function capturarImagens() {
+            const cards = document.querySelectorAll('.post-card');
+            imagensCapturadas = [];
+
+            // Container offscreen em tamanho real (sem transform de preview)
+            const offscreen = document.createElement('div');
+            offscreen.style.cssText = 'position:fixed; left:-9999px; top:0; width:1080px; height:1080px; overflow:visible; z-index:-1;';
+            document.body.appendChild(offscreen);
+
+            for (let i = 0; i < cards.length; i++) {
+                // Clona o card e remove o transform para capturar em 1080x1080 real
+                const clone = cards[i].cloneNode(true);
+                clone.style.cssText = 'width:2007px; height:2509px; transform:none; position:relative; display:flex; align-items:center; justify-content:center; padding:80px 60px; background:' + cards[i].style.background + ';';
+                offscreen.innerHTML = '';
+                offscreen.appendChild(clone);
+
+                await new Promise(r => setTimeout(r, 100));
+
+                const canvas = await html2canvas(clone, {
+                    width: 2007,
+                    height: 2509,
+                    scale: 1,
+                    useCORS: true,
+                    backgroundColor: null,
+                    logging: false
+                });
+                imagensCapturadas.push(canvas.toDataURL('image/png'));
+            }
+
+            document.body.removeChild(offscreen);
+            return imagensCapturadas;
+        }
+
+        async function baixarZip() {
+            const btn = document.getElementById('btn-baixar');
+            btn.disabled = true;
+            btn.textContent = '⏳ Gerando...';
+            await capturarImagens();
+            const zip = new JSZip();
+            const folder = zip.folder('Carrossel');
+            imagensCapturadas.forEach((img, i) => {
+                folder.file(`Slide_${i + 1}.png`, img.split(',')[1], { base64: true });
+            });
+            zip.generateAsync({ type: 'blob' }).then(c => {
+                saveAs(c, 'carrossel_instagram.zip');
+                btn.disabled = false;
+                btn.textContent = '📦 Baixar ZIP';
+            });
+        }
+
+        async function salvarSupabase() {
+            const btn = document.getElementById('btn-salvar');
+            const status = document.getElementById('status-upload');
+            btn.disabled = true;
+            status.textContent = '⏳ Capturando imagens...';
+
+            if (imagensCapturadas.length === 0) await capturarImagens();
+
+            try {
+                // 1. Lista os posts atuais para arquivar
+                status.textContent = '☁️ Verificando posts existentes...';
+                const { data: existentes } = await sb.storage.from(BUCKET).list('posts');
+
+                // 2. Arquiva os existentes (copia para historico/TIMESTAMP/)
+                if (existentes && existentes.length > 0) {
+                    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+                    for (const arq of existentes) {
+                        const { data: conteudo } = await sb.storage.from(BUCKET).download(`posts/${arq.name}`);
+                        await sb.storage.from(BUCKET).upload(`historico/${timestamp}/${arq.name}`, conteudo, { upsert: true });
+                    }
+                    // Remove os posts da pasta atual
+                    await sb.storage.from(BUCKET).remove(existentes.map(a => `posts/${a.name}`));
+                }
+
+                // 3. Faz upload das novas imagens
+                for (let i = 0; i < imagensCapturadas.length; i++) {
+                    status.textContent = `☁️ Enviando Slide ${i + 1} de ${imagensCapturadas.length}...`;
+                    const base64 = imagensCapturadas[i].split(',')[1];
+                    const bytes = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+                    const blob = new Blob([bytes], { type: 'image/png' });
+                    await sb.storage.from(BUCKET).upload(`posts/Slide_${i + 1}.png`, blob, { upsert: true });
+                }
+
+                status.textContent = `✅ ${imagensCapturadas.length} imagens salvas no Supabase!`;
+            } catch (err) {
+                console.error(err);
+                status.textContent = '❌ Erro ao salvar: ' + err.message;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '☁️ Salvar no Supabase';
+            }
+        }
+    </script>
+</body>
+
+</html>

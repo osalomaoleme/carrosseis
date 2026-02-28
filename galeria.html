@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria — Salomão Leme</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #111;
+            color: #eee;
+            min-height: 100vh;
+            padding: 32px 20px 60px;
+        }
+
+        .header {
+            max-width: 1100px;
+            margin: 0 auto 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 13px;
+            color: #555;
+            margin-top: 3px;
+        }
+
+        .btn-voltar {
+            padding: 10px 18px;
+            background: #1c1c1c;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            color: #aaa;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .btn-voltar:hover {
+            border-color: #444;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        @media(max-width: 700px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sidebar {
+            background: #1c1c1c;
+            border: 1px solid #2a2a2a;
+            border-radius: 14px;
+            padding: 16px;
+            position: sticky;
+            top: 24px;
+        }
+
+        .sidebar-titulo {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #444;
+            margin-bottom: 12px;
+        }
+
+        .pasta-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s;
+            margin-bottom: 4px;
+        }
+
+        .pasta-item:hover {
+            background: #252525;
+        }
+
+        .pasta-item.ativa {
+            background: #2a2a2a;
+        }
+
+        .pasta-nome {
+            font-size: 13px;
+            color: #ccc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 150px;
+        }
+
+        .pasta-badge {
+            font-size: 11px;
+            color: #555;
+            background: #1a1a1a;
+            padding: 2px 7px;
+            border-radius: 20px;
+            flex-shrink: 0;
+        }
+
+        .conteudo {
+            background: #1c1c1c;
+            border: 1px solid #2a2a2a;
+            border-radius: 14px;
+            padding: 24px;
+            min-height: 400px;
+        }
+
+        .conteudo-vazio {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 300px;
+            color: #333;
+            font-size: 15px;
+        }
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .toolbar-titulo {
+            font-size: 15px;
+            font-weight: 600;
+            color: #aaa;
+        }
+
+        .toolbar-titulo span {
+            color: #555;
+            font-weight: 400;
+            font-size: 13px;
+            margin-left: 8px;
+        }
+
+        .toolbar-acoes {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-acao {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid #2a2a2a;
+            background: #161616;
+            color: #aaa;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .btn-acao:hover {
+            border-color: #444;
+            color: #fff;
+        }
+
+        .btn-acao.destaque {
+            background: linear-gradient(135deg, #f09433, #bc1888);
+            border-color: transparent;
+            color: #fff;
+        }
+
+        .btn-acao.destaque:hover {
+            opacity: 0.85;
+        }
+
+        .img-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 14px;
+        }
+
+        .img-item {
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.15s;
+            background: #111;
+        }
+
+        .img-item.selecionada {
+            border-color: #fff;
+        }
+
+        .img-item img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            display: block;
+        }
+
+        .img-check {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .img-item.selecionada .img-check {
+            background: #fff;
+            border-color: #fff;
+        }
+
+        .img-check::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #000;
+            display: none;
+        }
+
+        .img-item.selecionada .img-check::after {
+            display: block;
+        }
+
+        .img-nome {
+            font-size: 11px;
+            color: #555;
+            padding: 6px 8px;
+            text-align: center;
+        }
+
+        #status {
+            font-size: 13px;
+            color: #555;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div>
+            <h1>🗂️ Galeria de Carrosseis</h1>
+            <p>Histórico de posts gerados</p>
+        </div>
+        <a href="index.html" class="btn-voltar">← Voltar ao Gerador</a>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-titulo">Pastas</div>
+            <div id="lista-pastas">
+                <div style="color:#444; font-size:13px; padding:8px;">Carregando...</div>
+            </div>
+        </div>
+        <div class="conteudo" id="conteudo">
+            <div class="conteudo-vazio">Selecione uma pasta à esquerda</div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="config.js"></script>
+    <script>
+        const { createClient } = supabase;
+        const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let pastaSelecionada = null;
+        let selecionadas = new Set();
+
+        async function carregarPastas() {
+            const lista = document.getElementById('lista-pastas');
+            const pastas = [];
+
+            // Posts atuais
+            const { data: posts } = await sb.storage.from(BUCKET).list('posts');
+            if (posts && posts.length > 0) {
+                pastas.push({ path: 'posts', label: '📌 Posts Atuais', total: posts.length });
+            }
+
+            // Histórico
+            const { data: hist } = await sb.storage.from(BUCKET).list('historico');
+            if (hist) {
+                for (const dir of hist.sort((a, b) => b.name.localeCompare(a.name))) {
+                    const { data: imgs } = await sb.storage.from(BUCKET).list(`historico/${dir.name}`);
+                    if (imgs) pastas.push({ path: `historico/${dir.name}`, label: dir.name, total: imgs.length });
+                }
+            }
+
+            if (pastas.length === 0) {
+                lista.innerHTML = '<div style="color:#444; font-size:13px; padding:8px;">Nenhuma imagem ainda</div>';
+                return;
+            }
+
+            lista.innerHTML = '';
+            pastas.forEach(p => {
+                const el = document.createElement('div');
+                el.className = 'pasta-item';
+                el.innerHTML = `<div class="pasta-nome">${p.label}</div><div class="pasta-badge">${p.total}</div>`;
+                el.addEventListener('click', () => abrirPasta(p.path, p.label, el));
+                lista.appendChild(el);
+            });
+
+            // Abre a primeira automaticamente
+            const primeiro = lista.querySelector('.pasta-item');
+            if (primeiro) primeiro.click();
+        }
+
+        async function abrirPasta(pastaCaminho, label, elPasta) {
+            document.querySelectorAll('.pasta-item').forEach(el => el.classList.remove('ativa'));
+            elPasta.classList.add('ativa');
+            pastaSelecionada = pastaCaminho;
+            selecionadas.clear();
+
+            const conteudo = document.getElementById('conteudo');
+            conteudo.innerHTML = '<div class="conteudo-vazio">Carregando...</div>';
+
+            const { data: imagens } = await sb.storage.from(BUCKET).list(pastaCaminho);
+            const imgs = (imagens || []).filter(f => f.name.endsWith('.png')).sort((a, b) => a.name.localeCompare(b.name));
+
+            if (imgs.length === 0) { conteudo.innerHTML = '<div class="conteudo-vazio">Pasta vazia</div>'; return; }
+
+            conteudo.innerHTML = `
+                <div class="toolbar">
+                    <div class="toolbar-titulo">${label}<span>${imgs.length} imagem${imgs.length > 1 ? 's' : ''}</span></div>
+                    <div class="toolbar-acoes">
+                        <button class="btn-acao" onclick="toggleTudo()">Selecionar tudo</button>
+                        <button class="btn-acao" onclick="baixarSelecionadas()">⬇ Baixar selecionadas</button>
+                        <button class="btn-acao destaque" onclick="baixarPasta()">📦 Baixar pasta</button>
+                    </div>
+                </div>
+                <div class="img-grid" id="img-grid"></div>
+                <div id="status"></div>`;
+
+            const grid = document.getElementById('img-grid');
+            imgs.forEach(img => {
+                const { data: urlData } = sb.storage.from(BUCKET).getPublicUrl(`${pastaCaminho}/${img.name}`);
+                const item = document.createElement('div');
+                item.className = 'img-item';
+                item.dataset.arquivo = img.name;
+                item.dataset.path = `${pastaCaminho}/${img.name}`;
+                item.innerHTML = `<div class="img-check"></div><img src="${urlData.publicUrl}" alt="${img.name}" loading="lazy"><div class="img-nome">${img.name}</div>`;
+                item.addEventListener('click', () => toggleSelecionar(item, img.name));
+                grid.appendChild(item);
+            });
+        }
+
+        function toggleSelecionar(el, nome) {
+            if (selecionadas.has(nome)) { selecionadas.delete(nome); el.classList.remove('selecionada'); }
+            else { selecionadas.add(nome); el.classList.add('selecionada'); }
+            const s = document.getElementById('status');
+            if (s) s.textContent = selecionadas.size > 0 ? `${selecionadas.size} selecionada${selecionadas.size > 1 ? 's' : ''}` : '';
+        }
+
+        function toggleTudo() {
+            const itens = document.querySelectorAll('.img-item');
+            const todos = selecionadas.size === itens.length;
+            selecionadas.clear();
+            itens.forEach(el => { el.classList.remove('selecionada'); if (!todos) { selecionadas.add(el.dataset.arquivo); el.classList.add('selecionada'); } });
+        }
+
+        async function baixarSelecionadas() {
+            if (selecionadas.size === 0) { alert('Selecione ao menos uma imagem.'); return; }
+            const zip = new JSZip();
+            for (const nome of selecionadas) {
+                const { data } = await sb.storage.from(BUCKET).download(`${pastaSelecionada}/${nome}`);
+                zip.file(nome, data);
+            }
+            const content = await zip.generateAsync({ type: 'blob' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(content);
+            a.download = `selecionadas.zip`; a.click();
+        }
+
+        async function baixarPasta() {
+            if (!pastaSelecionada) return;
+            const { data: imagens } = await sb.storage.from(BUCKET).list(pastaSelecionada);
+            const imgs = (imagens || []).filter(f => f.name.endsWith('.png'));
+            const zip = new JSZip();
+            for (const img of imgs) {
+                const { data } = await sb.storage.from(BUCKET).download(`${pastaSelecionada}/${img.name}`);
+                zip.file(img.name, data);
+            }
+            const content = await zip.generateAsync({ type: 'blob' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(content);
+            a.download = `carrossel_${pastaSelecionada.split('/').pop()}.zip`; a.click();
+        }
+
+        carregarPastas();
+    </script>
+</body>
+
+</html>
