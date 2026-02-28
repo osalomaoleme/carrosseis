@@ -426,7 +426,17 @@
             a.download = `carrossel_${pastaSelecionada.split('/').pop()}.zip`; a.click();
         }
 
-        carregarPastas();
+        // Verifica se está logado antes de carregar
+        async function init() {
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) {
+                window.location.href = 'index.html';
+                return;
+            }
+            carregarPastas();
+        }
+
+        init();
     </script>
 </body>
 

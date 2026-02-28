@@ -32,6 +32,124 @@
             align-items: center;
         }
 
+        /* ========== LOGIN ========== */
+        .login-container {
+            background: #1c1c1c;
+            border: 1px solid #2a2a2a;
+            border-radius: 20px;
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 420px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            font-size: 20px;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+
+        .login-container p {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 28px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #111;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            color: #eee;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: #444;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #f09433, #bc1888);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: opacity 0.2s;
+        }
+
+        .login-btn:hover {
+            opacity: 0.88;
+        }
+
+        .login-btn:disabled {
+            background: #333;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .login-erro {
+            color: #ff6b6b;
+            font-size: 13px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        /* ========== APP ========== */
+        #app {
+            display: none;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .app-hidden {
+            display: none !important;
+        }
+
+        .topbar {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .topbar-user {
+            font-size: 12px;
+            color: #555;
+        }
+
+        .btn-logout {
+            padding: 6px 14px;
+            border-radius: 8px;
+            border: 1px solid #2a2a2a;
+            background: none;
+            color: #666;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .btn-logout:hover {
+            color: #ff6b6b;
+            border-color: #ff6b6b;
+        }
+
         h1 {
             font-size: 22px;
             font-weight: 700;
@@ -263,6 +381,7 @@
             flex-shrink: 0;
         }
 
+        /* ===== POST CARD (tamanho real) ===== */
         .post-card {
             width: var(--card-width);
             height: var(--card-height);
@@ -274,18 +393,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 80px 60px;
+            padding: 100px 80px;
         }
 
         .tweet-card {
-            background: #fff;
-            border-radius: 36px;
-            padding: 80px 100px;
+            background: #ffffff;
+            border-radius: 48px;
+            padding: 100px 120px;
             width: 100%;
             height: auto;
-            min-height: 800px;
-            max-height: 1800px;
-            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.25);
+            min-height: 1200px;
+            max-height: 2100px;
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.22);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -294,16 +413,16 @@
         .tweet-header {
             display: flex;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
             flex-shrink: 0;
         }
 
         .perfil-foto {
-            width: 100px;
-            height: 100px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             object-fit: cover;
-            margin-right: 24px;
+            margin-right: 30px;
             background: #ddd;
             flex-shrink: 0;
         }
@@ -316,20 +435,20 @@
         }
 
         .perfil-nome {
-            font-size: 32px;
+            font-size: 44px;
             font-weight: 700;
             color: #0f1419;
         }
 
         .perfil-handle {
-            font-size: 26px;
+            font-size: 34px;
             color: #536471;
             margin-top: 4px;
         }
 
         .tweet-dots {
             color: #536471;
-            font-size: 36px;
+            font-size: 48px;
             font-weight: bold;
             letter-spacing: 2px;
             align-self: flex-start;
@@ -337,20 +456,20 @@
         }
 
         .tweet-texto {
-            font-size: 38px;
+            font-size: 52px;
             color: #0f1419;
             line-height: 1.5;
             word-wrap: break-word;
             overflow-wrap: break-word;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
         }
 
         .tweet-acoes {
             display: flex;
             justify-content: space-between;
             color: #536471;
-            border-top: 1px solid #eff3f4;
-            padding-top: 24px;
+            border-top: 2px solid #eff3f4;
+            padding-top: 36px;
             flex-shrink: 0;
         }
 
@@ -361,8 +480,8 @@
         }
 
         .acao svg {
-            width: 32px;
-            height: 32px;
+            width: 44px;
+            height: 44px;
             fill: currentColor;
         }
 
@@ -451,70 +570,90 @@
 </head>
 
 <body>
-    <h1>✦ Gerador de Carrossel</h1>
-    <p class="subtitulo">@osalomaoleme</p>
+    <!-- ========== TELA DE LOGIN ========== -->
+    <div id="login-screen">
+        <div class="login-container">
+            <h2>🔐 Login</h2>
+            <p>Acesse o gerador de carrossel</p>
+            <input class="login-input" type="email" id="login-email" placeholder="Email">
+            <input class="login-input" type="password" id="login-senha" placeholder="Senha">
+            <button class="login-btn" id="btn-login" onclick="fazerLogin()">Entrar</button>
+            <div class="login-erro" id="login-erro"></div>
+        </div>
+    </div>
 
-    <div class="painel">
-        <!-- Foto de perfil -->
-        <div class="secao-label">Foto de Perfil</div>
-        <div class="foto-row">
-            <img id="foto-preview-img" class="foto-preview" src="" alt="preview">
-            <label class="btn-upload" for="arquivo-foto" style="flex:1; margin-top:0;">📷 Escolher foto de
-                perfil</label>
-            <input type="file" id="arquivo-foto" accept="image/*">
+    <!-- ========== APP PRINCIPAL ========== -->
+    <div id="app" class="app-hidden">
+        <div class="topbar">
+            <span class="topbar-user" id="user-email"></span>
+            <button class="btn-logout" onclick="fazerLogout()">Sair</button>
         </div>
 
-        <!-- Texto -->
-        <div style="display:flex; justify-content:space-between; align-items:center; margin: 22px 0 10px;">
-            <div class="secao-label" style="margin-bottom:0;">Texto do Carrossel</div>
-            <button onclick="limparCampo()"
-                style="background:none; border:1px solid #2a2a2a; color:#444; font-size:12px; cursor:pointer; font-family:'Inter',sans-serif; padding:4px 8px; border-radius:6px;"
-                onmouseover="this.style.color='#aaa'" onmouseout="this.style.color='#444'">✕ Limpar</button>
-        </div>
-        <textarea class="campo-texto" id="input-texto"
-            placeholder="Cole aqui o texto no formato:&#10;&#10;Slide 1&#10;Texto do primeiro slide...&#10;&#10;Slide 2&#10;Texto do segundo slide..."></textarea>
+        <h1>✦ Gerador de Carrossel</h1>
+        <p class="subtitulo">@osalomaoleme</p>
 
-        <div class="separador">ou suba um arquivo .txt</div>
-        <label class="btn-upload" for="arquivo-txt">📂 Escolher arquivo .txt</label>
-        <input type="file" id="arquivo-txt" accept=".txt">
-        <div class="nome-arquivo" id="nome-arquivo-label"></div>
-
-        <!-- Gradientes -->
-        <div class="secao">
-            <div class="secao-label">Cor de Fundo</div>
-            <div class="gradientes" id="gradientes">
-                <button class="grad-btn selecionado" style="background:linear-gradient(45deg,#111,#444);"
-                    data-grad="linear-gradient(45deg,#111111,#444444)" title="Dark"></button>
-                <button class="grad-btn"
-                    style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);"
-                    data-grad="linear-gradient(45deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)"
-                    title="Instagram"></button>
-                <button class="grad-btn" style="background:linear-gradient(45deg,#833ab4,#fd1d1d,#fcb045);"
-                    data-grad="linear-gradient(45deg,#833ab4,#fd1d1d,#fcb045)" title="Vibrante"></button>
-                <button class="grad-btn" style="background:linear-gradient(135deg,#00d2ff,#3a7bd5);"
-                    data-grad="linear-gradient(135deg,#00d2ff,#3a7bd5)" title="Azul"></button>
-                <button class="grad-btn" style="background:linear-gradient(135deg,#FF6A88,#FF99AC);"
-                    data-grad="linear-gradient(135deg,#FF6A88,#FF99AC)" title="Rosa"></button>
-                <button class="grad-btn" style="background:linear-gradient(135deg,#1a1a2e,#16213e);"
-                    data-grad="linear-gradient(135deg,#1a1a2e,#16213e)" title="Noite"></button>
+        <div class="painel">
+            <!-- Foto de perfil -->
+            <div class="secao-label">Foto de Perfil</div>
+            <div class="foto-row">
+                <img id="foto-preview-img" class="foto-preview" src="" alt="preview">
+                <label class="btn-upload" for="arquivo-foto" style="flex:1; margin-top:0;">📷 Escolher foto de
+                    perfil</label>
+                <input type="file" id="arquivo-foto" accept="image/*" style="display:none;">
             </div>
+
+            <!-- Texto -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin: 22px 0 10px;">
+                <div class="secao-label" style="margin-bottom:0;">Texto do Carrossel</div>
+                <button onclick="limparCampo()"
+                    style="background:none; border:1px solid #2a2a2a; color:#444; font-size:12px; cursor:pointer; font-family:'Inter',sans-serif; padding:4px 8px; border-radius:6px;"
+                    onmouseover="this.style.color='#aaa'" onmouseout="this.style.color='#444'">✕ Limpar</button>
+            </div>
+            <textarea class="campo-texto" id="input-texto"
+                placeholder="Cole aqui o texto no formato:&#10;&#10;Slide 1&#10;Texto do primeiro slide...&#10;&#10;Slide 2&#10;Texto do segundo slide..."></textarea>
+
+            <div class="separador">ou suba um arquivo .txt</div>
+            <label class="btn-upload" for="arquivo-txt">📂 Escolher arquivo .txt</label>
+            <input type="file" id="arquivo-txt" accept=".txt">
+            <div class="nome-arquivo" id="nome-arquivo-label"></div>
+
+            <!-- Gradientes -->
+            <div class="secao">
+                <div class="secao-label">Cor de Fundo</div>
+                <div class="gradientes" id="gradientes">
+                    <button class="grad-btn selecionado" style="background:linear-gradient(45deg,#111,#444);"
+                        data-grad="linear-gradient(45deg,#111111,#444444)" title="Dark"></button>
+                    <button class="grad-btn"
+                        style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);"
+                        data-grad="linear-gradient(45deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)"
+                        title="Instagram"></button>
+                    <button class="grad-btn" style="background:linear-gradient(45deg,#833ab4,#fd1d1d,#fcb045);"
+                        data-grad="linear-gradient(45deg,#833ab4,#fd1d1d,#fcb045)" title="Vibrante"></button>
+                    <button class="grad-btn" style="background:linear-gradient(135deg,#00d2ff,#3a7bd5);"
+                        data-grad="linear-gradient(135deg,#00d2ff,#3a7bd5)" title="Azul"></button>
+                    <button class="grad-btn" style="background:linear-gradient(135deg,#FF6A88,#FF99AC);"
+                        data-grad="linear-gradient(135deg,#FF6A88,#FF99AC)" title="Rosa"></button>
+                    <button class="grad-btn" style="background:linear-gradient(135deg,#1a1a2e,#16213e);"
+                        data-grad="linear-gradient(135deg,#1a1a2e,#16213e)" title="Noite"></button>
+                </div>
+            </div>
+
+            <button class="btn-gerar" onclick="gerarPreview()">⚡ Gerar Carrossel</button>
         </div>
 
-        <button class="btn-gerar" onclick="gerarPreview()">⚡ Gerar Carrossel</button>
-    </div>
-
-    <div class="link-galeria">
-        <a href="galeria.html">🗂️ Ver histórico de carrosseis →</a>
-    </div>
-
-    <div id="secao-preview">
-        <h2>Preview <span id="label-total">0 slides</span></h2>
-        <div class="grid-preview" id="grid-preview"></div>
-        <div class="btns-download">
-            <button class="btn-baixar" id="btn-baixar" onclick="baixarZip()">📦 Baixar ZIP</button>
-            <button class="btn-salvar" id="btn-salvar" onclick="salvarSupabase()">☁️ Salvar no Supabase</button>
+        <div class="link-galeria">
+            <a href="galeria.html">🗂️ Ver histórico de carrosseis →</a>
         </div>
-        <div id="status-upload"></div>
+
+        <div id="secao-preview">
+            <h2>Preview <span id="label-total">0 slides</span></h2>
+            <div class="grid-preview" id="grid-preview"></div>
+            <div class="btns-download">
+                <button class="btn-baixar" id="btn-baixar" onclick="baixarZip()">📦 Baixar ZIP</button>
+                <button class="btn-salvar" id="btn-salvar" onclick="salvarSupabase()">☁️ Salvar no Supabase</button>
+            </div>
+            <div id="status-upload"></div>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -523,18 +662,80 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
     <script>
-        // Inicializa cliente Supabase
+        // ========== SUPABASE ==========
         const { createClient } = supabase;
         const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+        // ========== AUTH ==========
+        async function verificarSessao() {
+            const { data: { session } } = await sb.auth.getSession();
+            if (session) {
+                mostrarApp(session.user.email);
+            } else {
+                document.getElementById('login-screen').style.display = 'flex';
+                document.getElementById('app').classList.add('app-hidden');
+            }
+        }
+
+        async function fazerLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const senha = document.getElementById('login-senha').value;
+            const erroEl = document.getElementById('login-erro');
+            const btn = document.getElementById('btn-login');
+
+            if (!email || !senha) { erroEl.textContent = 'Preencha email e senha.'; erroEl.style.display = 'block'; return; }
+
+            btn.disabled = true;
+            btn.textContent = 'Entrando...';
+            erroEl.style.display = 'none';
+
+            const { data, error } = await sb.auth.signInWithPassword({ email, password: senha });
+
+            if (error) {
+                erroEl.textContent = error.message === 'Invalid login credentials'
+                    ? 'Email ou senha incorretos.'
+                    : error.message;
+                erroEl.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Entrar';
+                return;
+            }
+
+            mostrarApp(data.user.email);
+        }
+
+        function mostrarApp(email) {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('app').classList.remove('app-hidden');
+            document.getElementById('user-email').textContent = email;
+        }
+
+        async function fazerLogout() {
+            await sb.auth.signOut();
+            document.getElementById('app').classList.add('app-hidden');
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('login-email').value = '';
+            document.getElementById('login-senha').value = '';
+        }
+
+        // Enter para login
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Enter' && document.getElementById('login-screen').style.display !== 'none') {
+                fazerLogin();
+            }
+        });
+
+        // Verifica sessão ao carregar
+        verificarSessao();
+
+        // ========== GERADOR ==========
         let bgAtual = "linear-gradient(45deg,#111111,#444444)";
-        // Usa a foto do config.js como padrão — sobe a foto uma vez no Supabase e pronto
         let fotoDataUrl = (typeof FOTO_PERFIL_URL !== 'undefined' && FOTO_PERFIL_URL.indexOf('SEU_PROJETO') === -1)
             ? FOTO_PERFIL_URL
             : null;
         let imagensCapturadas = [];
 
-        // Interface da foto de perfil
+        // Foto de perfil
         document.getElementById('arquivo-foto').addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -588,7 +789,8 @@
             card.innerHTML = `
                 <div class="tweet-card">
                     <div class="tweet-header">
-                        <img class="perfil-foto" src="${fotoSrc}" alt="Perfil">
+                        <img class="perfil-foto" src="${fotoSrc}" alt="Perfil"
+                             crossorigin="anonymous">
                         <div class="perfil-info">
                             <div class="perfil-nome">Salomão Leme</div>
                             <div class="perfil-handle">@osalomaoleme</div>
@@ -641,19 +843,22 @@
             const cards = document.querySelectorAll('.post-card');
             imagensCapturadas = [];
 
-            // Container offscreen em tamanho real (sem transform de preview)
             const offscreen = document.createElement('div');
-            offscreen.style.cssText = 'position:fixed; left:-9999px; top:0; width:1080px; height:1080px; overflow:visible; z-index:-1;';
+            offscreen.style.cssText = 'position:fixed; left:-9999px; top:0; width:2007px; height:2509px; overflow:visible; z-index:-1;';
             document.body.appendChild(offscreen);
 
             for (let i = 0; i < cards.length; i++) {
-                // Clona o card e remove o transform para capturar em 1080x1080 real
                 const clone = cards[i].cloneNode(true);
-                clone.style.cssText = 'width:2007px; height:2509px; transform:none; position:relative; display:flex; align-items:center; justify-content:center; padding:80px 60px; background:' + cards[i].style.background + ';';
+                clone.style.cssText = 'width:2007px; height:2509px; transform:none; position:relative; display:flex; align-items:center; justify-content:center; padding:100px 80px; background:' + cards[i].style.background + ';';
+
+                // Garante fundo branco sólido no tweet-card
+                const tweetCard = clone.querySelector('.tweet-card');
+                if (tweetCard) tweetCard.style.background = '#ffffff';
+
                 offscreen.innerHTML = '';
                 offscreen.appendChild(clone);
 
-                await new Promise(r => setTimeout(r, 100));
+                await new Promise(r => setTimeout(r, 150));
 
                 const canvas = await html2canvas(clone, {
                     width: 2007,
@@ -696,22 +901,18 @@
             if (imagensCapturadas.length === 0) await capturarImagens();
 
             try {
-                // 1. Lista os posts atuais para arquivar
                 status.textContent = '☁️ Verificando posts existentes...';
                 const { data: existentes } = await sb.storage.from(BUCKET).list('posts');
 
-                // 2. Arquiva os existentes (copia para historico/TIMESTAMP/)
                 if (existentes && existentes.length > 0) {
                     const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
                     for (const arq of existentes) {
                         const { data: conteudo } = await sb.storage.from(BUCKET).download(`posts/${arq.name}`);
                         await sb.storage.from(BUCKET).upload(`historico/${timestamp}/${arq.name}`, conteudo, { upsert: true });
                     }
-                    // Remove os posts da pasta atual
                     await sb.storage.from(BUCKET).remove(existentes.map(a => `posts/${a.name}`));
                 }
 
-                // 3. Faz upload das novas imagens
                 for (let i = 0; i < imagensCapturadas.length; i++) {
                     status.textContent = `☁️ Enviando Slide ${i + 1} de ${imagensCapturadas.length}...`;
                     const base64 = imagensCapturadas[i].split(',')[1];
